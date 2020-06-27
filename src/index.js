@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import AppUsingHooks from './AppUsingHooks';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {
+      localStorage.getItem('HOOKS_MODE') && localStorage.getItem('HOOKS_MODE') == 'true' ? <AppUsingHooks/> : <App />
+    }
   </React.StrictMode>,
   document.getElementById('root')
 );

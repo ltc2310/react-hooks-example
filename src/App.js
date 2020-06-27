@@ -1,26 +1,69 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Input, Row} from 'antd';
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      firstName: "",
+      lastName: "",
+      width: window.innerWidth
+    };
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  onFirstNameChange = (e) => {
+    this.setState({
+      firstName: e.target.value
+    })
+  }
+
+  onLastNameChange = (e) => {
+    this.setState({
+      lastName: e.target.value
+    })
+  }
+
+  componentDidMount(){
+    document.title = this.state.firstName + ' ' + this.state.lastName;
+    window.addEventListener('resize', this.handleReSize);
+  }
+
+  componentDidUpdate() {
+    document.title = this.state.firstName + ' ' + this.state.lastName
+  }
+
+  handleReSize = () => {
+    this.setState({
+      width: window.innerWidth
+    })
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('resize', this.handleReSize);
+  }
+
+  render() {
+    const {firstName, lastName, width} = this.state;
+    const fullName = firstName + ' ' + lastName;
+    return (
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <div>
+          <Row>width: {width}</Row>
+          <Row>
+            <h1>Hello {fullName}</h1>
+          </Row>
+          <Row>
+              <label>first name:</label>
+              <Input type="text" value={firstName} onChange={this.onFirstNameChange} placeholder="input your first name"/>
+          </Row>
+          <Row>
+            <label>last name:</label>
+            <Input type="text" value={lastName} onChange={this.onLastNameChange} placeholder="input your last name"/>
+          </Row>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
